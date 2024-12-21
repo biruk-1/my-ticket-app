@@ -1,0 +1,123 @@
+{
+    "events": [
+        {
+            "event_id": "1",
+            "display_name": "The Legends",
+            "event_date_time": "2024-09-04 20:52:52",
+            "poster": "https://cdn.stayhappening.com/events7/banners/9dfda141686146d074c17f3952187c466bd84de60b277b1356d921f43396955e-rimg-w515-h480-gmir.jpg?v=1620912851",
+            "event_type": "concert",
+            "action": "pay",
+            "event_description": "cool",
+            "location": "Sheraton Addis",
+            "offer": "5",
+            "price": "0",
+            "position": "top",
+            "tickets": [
+                {
+                    "ticket_type": "Regular",
+                    "price": "100",
+                    "ev_id": "1"
+                },
+                {
+                    "ticket_type": "VIP",
+                    "price": "300",
+                    "ev_id": "2"
+                }
+            ]
+        },
+        {
+            "event_id": "2",
+            "display_name": "Music Fest",
+            "event_date_time": "2024-09-04 20:52:52",
+            "poster": "https://alladdisevents.com/wp-content/uploads/2022/02/Yohanna-Music-Ereft-Concert-in-Addis-Ababa-Addis-Events.jpg",
+            "event_type": "concert",
+            "action": "pay",
+            "event_description": "The artists making the biggest noise now Yohana, Kassmasse and Hewan along with new gems MicSolo and Jemberu Demeke are ready to give you the biggest concert of the year on Feb 26 at Ghion Hotel. You can’t miss this! Presented by Choo Choo Promotions and Walia Beer.",
+            "location": "Millenium Hall",
+            "offer": "5",
+            "price": "0",
+            "position": "regular",
+            "tickets": [
+                {
+                    "ticket_type": "VIP",
+                    "price": "300",
+                    "ev_id": "3"
+                },
+                {
+                    "ticket_type": "Regular",
+                    "price": "100",
+                    "ev_id": "4"
+                },
+                {
+                    "ticket_type": "VVIP",
+                    "price": "1000",
+                    "ev_id": "5"
+                }
+            ]
+        },
+        {
+            "event_id": "3",
+            "display_name": "Mike",
+            "event_date_time": "2024-09-04 20:52:52",
+            "poster": "https://z-p3-scontent.fadd1-1.fna.fbcdn.net/v/t39.30808-6/313032844_4942079155895029_8015499565914776939_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=3a1ebe&_nc_eui2=AeE-wAP0YVX3My290rVaS5t_4GpFLjJ8WrTgakUuMnxatLaHgKDrjX1EDIlg69Z8SrrxdcpdzDCMRHsjsaq0vNTk&_nc_ohc=FXMlm5IlAoIQ7kNvgF-BuBt&_nc_zt=23&_nc_ht=z-p3-scontent.fadd1-1.fna&_nc_gid=AH1tbKbR08uaHhkBpuX8Izl&oh=00_AYA_dCdjU73p6W3qNEoEKcqOPmOm5emycvEWibO_nAC0WQ&oe=67305CAF",
+            "event_type": "concert",
+            "action": "pay",
+            "event_description": "The artists making the biggest noise now Yohana, Kassmasse and Hewan along with new gems MicSolo and Jemberu Demeke are ready to give you the biggest concert of the year on Feb 26 at Ghion Hotel. You can’t miss this! Presented by Choo Choo Promotions and Walia Beer.",
+            "location": "Millenium Hall",
+            "offer": "5",
+            "price": "0",
+            "position": "regular",
+            "tickets": []
+        },
+        {
+            "event_id": "4",
+            "display_name": "Ye'abatu Lij",
+            "event_date_time": "2024-09-04 20:52:52",
+            "poster": "https://alladdisevents.com/wp-content/uploads/2022/02/Ye-Abatu-Lej-Concert-3.jpg",
+            "event_type": "concert",
+            "action": "pay",
+            "event_description": "The artists making the biggest noise now Yohana, Kassmasse and Hewan along with new gems MicSolo and Jemberu Demeke are ready to give you the biggest concert of the year on Feb 26 at Ghion Hotel. You can’t miss this! Presented by Choo Choo Promotions and Walia Beer.",
+            "location": "Millenium Hall",
+            "offer": "5",
+            "price": "0",
+            "position": "regular",
+            "tickets": []
+        },
+        {
+            "event_id": "5",
+            "display_name": "Game Night",
+            "event_date_time": "2024-09-04 20:52:52",
+            "poster": "https://downtownchapelhill.com/app/uploads/2024/02/371928423_316534230948619_4548124322144670081_n-585x585.jpeg",
+            "event_type": "concert",
+            "action": "pay",
+            "event_description": "cool",
+            "location": "Sheraton Addis",
+            "offer": "5",
+            "price": "0",
+            "position": "top",
+            "tickets": []
+        }
+    ],
+    "places": [
+        {
+            "place_id": "1",
+            "place_name": "Atmosphere",
+            "place_photo": "https://selamta.ethiopianairlines.com/wp-content/uploads/2022/10/Where-to-see-art-in-Addis-Ababa_Atmosphere.jpg",
+            "open_time": "23:36:36",
+            "close_time": "23:36:41",
+            "location": "Addis Ababa Bole",
+            "description": "a multipurpose cultural and creative space in the heart of Addis Ababa, Ethiopia.",
+            "latlng": "12,123"
+        },
+        {
+            "place_id": "2",
+            "place_name": "Chacka Coffee",
+            "place_photo": "https://media-cdn.tripadvisor.com/media/photo-s/19/ef/21/f7/warehouse-bar-with-an.jpg",
+            "open_time": "23:36:36",
+            "close_time": "23:36:41",
+            "location": "Addis Ababa Bole",
+            "description": "a multipurpose cultural and creative space in the heart of Addis Ababa, Ethiopia.",
+            "latlng": "12,123"
+        }
+    ]
+}
