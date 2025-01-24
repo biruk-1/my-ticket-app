@@ -1,12 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, Dimensions, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LinearGradient } from 'expo-linear-gradient';
+import Icon from 'react-native-vector-icons/MaterialIcons'; // For icons
+
+const { width, height } = Dimensions.get('window');
 
 const FilterOptions = ({ navigation }) => {
   const eventTypes = [
-    'Music & Entertainment', 'Travel', 'Film & Media', 'Food & Drinks',
-    'Art & Design', 'Fashion', 'Health & Wellness', 'Sport',
-    'Gaming', 'Science & Tech', 'School & Education', 'Business',
+    { name: 'Music & Entertainment', icon: 'music-note' },
+    { name: 'Travel', icon: 'flight' },
+    { name: 'Film & Media', icon: 'movie' },
+    { name: 'Food & Drinks', icon: 'restaurant' },
+    { name: 'Art & Design', icon: 'palette' },
+    { name: 'Fashion', icon: 'checkroom' },
+    { name: 'Health & Wellness', icon: 'favorite' },
+    { name: 'Sport', icon: 'sports-soccer' },
+    { name: 'Gaming', icon: 'sports-esports' },
+    { name: 'Science & Tech', icon: 'science' },
+    { name: 'School & Education', icon: 'school' },
+    { name: 'Business', icon: 'business' },
   ];
 
   const [selectedTypes, setSelectedTypes] = useState([]);
@@ -52,17 +65,36 @@ const FilterOptions = ({ navigation }) => {
   }, [navigation]);
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={['#6a11cb', '#2575fc']}
+      style={styles.container}
+    >
       <Text style={styles.title}>Choose Your Favourite Event</Text>
       <Text style={styles.subtitle}>Get Personalized Event Recommendations</Text>
       <View style={styles.buttonContainer}>
         {eventTypes.map((type, index) => (
           <TouchableOpacity
             key={index}
-            style={[styles.button, selectedTypes.includes(type) && styles.buttonSelected]}
-            onPress={() => toggleSelection(type)}
+            style={[
+              styles.button,
+              selectedTypes.includes(type.name) && styles.buttonSelected,
+            ]}
+            onPress={() => toggleSelection(type.name)}
           >
-            <Text style={styles.buttonText}>{type}</Text>
+            <Icon
+              name={type.icon}
+              size={24}
+              color={selectedTypes.includes(type.name) ? '#fff' : '#6200ea'}
+              style={styles.icon}
+            />
+            <Text
+              style={[
+                styles.buttonText,
+                selectedTypes.includes(type.name) && styles.buttonTextSelected,
+              ]}
+            >
+              {type.name}
+            </Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -75,7 +107,7 @@ const FilterOptions = ({ navigation }) => {
       >
         <Text style={styles.getStartedButtonText}>Get Started</Text>
       </TouchableOpacity>
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -85,21 +117,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#fff',
   },
   title: {
-    fontSize: 28,
+    fontSize: width * 0.06, // Responsive font size
     fontWeight: 'bold',
     marginBottom: 10,
-    color: '#6200ea',
-    textShadowColor: '#000',
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 5,
+    color: '#fff',
+    textAlign: 'center',
+    fontFamily: Platform.OS === 'ios' ? 'Helvetica Neue' : 'sans-serif',
   },
   subtitle: {
-    fontSize: 18,
-    color: '#333',
-    marginBottom: 20,
+    fontSize: width * 0.04, // Responsive font size
+    color: '#f0f0f0',
+    marginBottom: 30,
+    textAlign: 'center',
+    fontFamily: Platform.OS === 'ios' ? 'Helvetica Neue' : 'sans-serif',
     fontStyle: 'italic',
   },
   buttonContainer: {
@@ -114,37 +146,49 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     margin: 8,
     borderRadius: 25,
-    borderWidth: 2,
-    borderColor: '#6200ea',
-    elevation: 3,
-    width: '45%',
+    borderWidth: 1,
+    borderColor: '#ddd',
+    elevation: 2,
+    width: width * 0.4, // Responsive width
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonSelected: {
     backgroundColor: '#6200ea',
-    borderColor: '#ffffff',
+    borderColor: '#6200ea',
   },
   buttonText: {
     color: '#333',
-    fontSize: 16,
+    fontSize: width * 0.035, // Responsive font size
     textAlign: 'center',
-    fontWeight: '600',
+    fontWeight: '500',
+    marginLeft: 10,
+    fontFamily: Platform.OS === 'ios' ? 'Helvetica Neue' : 'sans-serif',
+  },
+  buttonTextSelected: {
+    color: '#fff',
+  },
+  icon: {
+    marginRight: 5,
   },
   getStartedButton: {
-    backgroundColor: '#6200ea',
-    padding: 18,
-    borderRadius: 50,
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 25,
     marginTop: 20,
-    width: '80%',
+    width: width * 0.8, // Responsive width
     shadowColor: '#6200ea',
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.3,
     shadowRadius: 10,
   },
   getStartedButtonText: {
-    color: '#fff',
-    fontSize: 18,
+    color: '#6200ea',
+    fontSize: width * 0.045, // Responsive font size
     textAlign: 'center',
     fontWeight: 'bold',
+    fontFamily: Platform.OS === 'ios' ? 'Helvetica Neue' : 'sans-serif',
   },
 });
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Text, StyleSheet, Animated, Easing } from "react-native";
+import { View, Text, StyleSheet, Animated, Easing, TouchableOpacity, Platform } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 const SplashScreen1 = ({ navigation }) => {
@@ -82,6 +82,13 @@ const SplashScreen1 = ({ navigation }) => {
       >
         Explore and Buy
       </Animated.Text>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("SplashScreen2")}
+      >
+        <Text style={styles.buttonText}>Get Started</Text>
+      </TouchableOpacity>
     </LinearGradient>
   );
 };
@@ -91,6 +98,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    paddingHorizontal: 20,
   },
   logoContainer: {
     backgroundColor: "rgba(255, 255, 255, 0.9)",
@@ -122,6 +130,24 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#f0f0f0",
     marginTop: 10,
+    textAlign: "center",
+  },
+  button: {
+    marginTop: 30,
+    backgroundColor: "#fff",
+    paddingHorizontal: 30,
+    paddingVertical: 15,
+    borderRadius: 25,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#6a11cb",
     textAlign: "center",
   },
 });

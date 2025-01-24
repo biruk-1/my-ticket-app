@@ -75,8 +75,10 @@ const SplashScreen2 = ({ navigation }) => {
               colors={["rgba(0,0,0,0.6)", "rgba(0,0,0,0.8)"]}
               style={styles.overlay}
             >
-              <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.subtitle}>{item.subtitle}</Text>
+              <View style={styles.textContainer}>
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.subtitle}>{item.subtitle}</Text>
+              </View>
             </LinearGradient>
           </ImageBackground>
         )}
@@ -122,8 +124,12 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    justifyContent: "flex-end",
-    paddingBottom: 80,
+    justifyContent: "center", // Center content vertically
+    alignItems: "center", // Center content horizontally
+    paddingBottom: 120, // Add padding to avoid overlapping with pagination and button
+  },
+  textContainer: {
+    alignItems: "center",
     paddingHorizontal: 20,
   },
   title: {
@@ -141,7 +147,7 @@ const styles = StyleSheet.create({
   },
   pagination: {
     position: "absolute",
-    bottom: 120,
+    bottom: 120, // Adjusted to avoid overlapping with the button
     flexDirection: "row",
     justifyContent: "center",
     alignSelf: "center",
@@ -160,7 +166,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: "absolute",
-    bottom: 50,
+    bottom: 50, // Adjusted to ensure it doesn't overlap with pagination
     alignSelf: "center",
   },
   button: {

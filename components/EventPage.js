@@ -9,13 +9,14 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   TextInput,
+  Dimensions,
 } from 'react-native';
 import Footer from './Footer';
 
-const EventPage = ({ route, navigation }) => {
-  // Destructure and handle cases where route.params might be undefined
-  const type = route?.params?.type || "defaultType";
+const { width, height } = Dimensions.get('window');
 
+const EventPage = ({ route, navigation }) => {
+  const type = route?.params?.type || "defaultType";
   const [topEvents, setTopEvents] = useState([]);
   const [regularEvents, setRegularEvents] = useState([]);
   const [places, setPlaces] = useState([]);
@@ -44,6 +45,9 @@ const EventPage = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
+      {/* Curved Background */}
+      <View style={styles.curvedBackground} />
+
       {/* Header */}
       <View style={styles.header}>
         <TextInput
@@ -58,7 +62,7 @@ const EventPage = ({ route, navigation }) => {
       </View>
 
       {/* Content */}
-      <ScrollView>
+      <ScrollView style={styles.content}>
         {/* Top Events Banner */}
         <ScrollView
           horizontal
@@ -86,27 +90,29 @@ const EventPage = ({ route, navigation }) => {
         </ScrollView>
 
         {/* Popular Events Section */}
-        <SectionHeader title="Popular Events" onPress={() => navigation.navigate('AllEvents')} />
-        <FlatList
-          horizontal
-          data={regularEvents}
-          renderItem={({ item }) => (
-            <EventCard item={item} navigation={navigation} />
-          )}
-          keyExtractor={(item) => item.event_id.toString()}
-          showsHorizontalScrollIndicator={false}
-          accessibilityLabel="Popular events list"
-        />
+        <View style={styles.eventsSection}>
+          <SectionHeader title="Popular Events" onPress={() => navigation.navigate('AllEvents')} />
+          <FlatList
+            horizontal
+            data={regularEvents}
+            renderItem={({ item }) => (
+              <EventCard item={item} navigation={navigation} />
+            )}
+            keyExtractor={(item) => item.event_id.toString()}
+            showsHorizontalScrollIndicator={false}
+            accessibilityLabel="Popular events list"
+          />
 
-        {/* Popular Places Section */}
-        <SectionHeader title="Popular Places" onPress={() => navigation.navigate('AllPlaces')} />
-        <FlatList
-          style={styles.places}
-          data={places}
-          renderItem={({ item }) => <PlaceCard item={item} />}
-          keyExtractor={(item) => item.place_id.toString()}
-          accessibilityLabel="Popular places list"
-        />
+          {/* Popular Places Section */}
+          <SectionHeader title="Popular Places" onPress={() => navigation.navigate('AllPlaces')} />
+          <FlatList
+            style={styles.places}
+            data={places}
+            renderItem={({ item }) => <PlaceCard item={item} />}
+            keyExtractor={(item) => item.place_id.toString()}
+            accessibilityLabel="Popular places list"
+          />
+        </View>
       </ScrollView>
 
       {/* Footer */}
@@ -162,15 +168,32 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F4F4F8' },
   loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   loadingText: { marginTop: 10, fontSize: 16, color: '#6200EE' },
+  eventsSection: {
+    backgroundColor: '#FFF', // Replace with a valid color
+    zIndex: 10,
+  },
+  curvedBackground: {
+    height: height * 0.33,
+    borderBottomLeftRadius: 70,
+    borderBottomRightRadius: 70,
+    backgroundColor: '#342b6b', // Single smooth color
+    position: 'absolute', // Position absolutely
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1, // Ensure it's below the header and content
+  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 10,
-    position:'fixed',
-    paddingBottom:20,
-    backgroundColor: '#342b6b',
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingTop: 20, // Push the header to the top
+    position: 'absolute', // Position absolutely
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 3, // Ensure it's above the curved background and content
   },
   searchBar: {
     flex: 1,
@@ -181,12 +204,16 @@ const styles = StyleSheet.create({
     height: 40,
   },
   icon: { fontSize: 20, color: '#FFF', marginLeft: 15 },
-  bannerScroll: { backgroundColor: '#3423a4',marginVertical: 0, paddingHorizontal: 10 },
+  content: {
+    flex: 1,
+    marginTop: height * 0.1, // Start content below the header
+    zIndex: 2, // Ensure content scrolls above the curved background
+  },
+  bannerScroll: { paddingHorizontal: 10 },
   banner: {
     marginRight: 10,
     borderRadius: 15,
     overflow: 'hidden',
-  
     elevation: 3,
     position: 'relative',
   },
@@ -194,7 +221,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     left: 10,
-    // width:5,
     backgroundColor: '#FFA726',
     color: '#FFF',
     paddingHorizontal: 8,
@@ -219,8 +245,7 @@ const styles = StyleSheet.create({
   },
   bannerImage: {
     width: 300,
-    height: 250,
-    opacity: 0.8,
+    height: 250, // Increased size
   },
   buyButton: {
     position: 'absolute',
@@ -239,35 +264,34 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginVertical: 20,
   },
-  sectionTitle: { fontSize: 17, fontWeight: 'bold', color: '#333' },
+  sectionTitle: { fontSize: 20, fontWeight: 'bold', color: '#333' },
   seeAll: { color: '#6A5ACD', fontSize: 14 },
   eventCard: {
     marginRight: 10,
     backgroundColor: '#FFF',
     borderRadius: 10,
     overflow: 'hidden',
-    width: 180,
+    width: 200, // Increased size
     elevation: 3,
-    // margin:20,
-    
   },
   eventImage: {
-    width: '100%', height: 130 },
-  eventName: { padding: 5, fontWeight: 'bold', fontSize: 14, color: '#ece6e6' },
+    width: '100%', height: 150, // Increased size
+  },
+  eventName: { padding: 5, fontWeight: 'bold', fontSize: 16, color: '#333' }, // Adjusted text style
   eventDate: { padding: 5, fontSize: 12, color: '#777' },
   placeCard: {
     flexDirection: 'row',
-    backgroundColor: '#4a4949',
+    backgroundColor: '#FFF',
     borderRadius: 10,
-    padding: 25,
+    padding: 10,
     marginVertical: 5,
     alignItems: 'center',
   },
-  places:{backgroundColor:'black',padding:5},
+  places: { padding: 5 },
   placeImage: { width: 60, height: 60, borderRadius: 10, marginRight: 10 },
-  placeName: { fontWeight: 'bold', fontSize: 16, color: '#381b5d' },
-  placeDescription: { fontSize: 14, color: '#bdbbbb' },
-  eventDetail:{backgroundColor:'#3e2dae',color:'white'}
+  placeName: { fontWeight: 'bold', fontSize: 16, color: '#333' },
+  placeDescription: { fontSize: 14, color: '#777' },
+  eventDetail: { padding: 10 },
 });
 
 export default EventPage;
