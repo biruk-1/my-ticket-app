@@ -48,7 +48,13 @@ const BuyTickets = ({ route, navigation }) => {
     const ticket = event.tickets.find((t) => t.ticket_type === type);
     return (
       <View style={styles.ticketOption} key={type}>
-        <Text style={styles.ticketLabel}>{type}</Text>
+        {/* Ticket Type and Price */}
+        <View style={styles.ticketInfo}>
+          <Text style={styles.ticketLabel}>{type}</Text>
+          <Text style={styles.price}>{ticket ? `${ticket.price} ETB` : 'Not Available'}</Text>
+        </View>
+
+        {/* Add and Subtract Buttons */}
         <View style={styles.counter}>
           <TouchableOpacity
             onPress={() =>
@@ -72,9 +78,6 @@ const BuyTickets = ({ route, navigation }) => {
             <Text style={styles.counterButton}>+</Text>
           </TouchableOpacity>
         </View>
-        <Text style={styles.price}>
-          {ticket ? `${ticket.price} ETB` : 'Not Available'}
-        </Text>
       </View>
     );
   };
@@ -87,18 +90,25 @@ const BuyTickets = ({ route, navigation }) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <Image source={{ uri: event.poster }} style={styles.image} />
-      <View style={styles.detailsContainer}>
-        <Text style={styles.title}>{event.display_name}</Text>
-        {['Regular', 'VIP', 'VVIP'].map(renderTicketOption)}
+    <View style={styles.container}>
+      {/* Scrollable Content */}
+      <ScrollView style={styles.scrollContainer}>
+        <Image source={{ uri: event.poster }} style={styles.image} />
+        <View style={styles.detailsContainer}>
+          <Text style={styles.title}>{event.display_name}</Text>
+          {['Regular', 'VIP', 'VVIP'].map(renderTicketOption)}
+        </View>
+      </ScrollView>
+
+      {/* Fixed Checkout Button */}
+      <View style={styles.footer}>
         <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
           <Text style={styles.checkoutButtonText}>
-            Checkout {calculateTotalPrice()} ETB
+            Checkout               {calculateTotalPrice()} ETB
           </Text>
         </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -106,6 +116,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f0f2f5',
+  },
+  scrollContainer: {
+    flex: 1,
     paddingHorizontal: 15,
   },
   loadingContainer: {
@@ -133,6 +146,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 5,
+    marginBottom: 80, // Add margin to avoid overlap with the fixed footer
   },
   title: {
     fontSize: 26,
@@ -153,10 +167,18 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 2,
   },
+  ticketInfo: {
+    alignItems: 'center',
+  },
   ticketLabel: {
     fontSize: 18,
     fontWeight: '600',
     color: '#333',
+  },
+  price: {
+    fontSize: 16,
+    color: '#342b6b',
+    marginTop: 5,
   },
   counter: {
     flexDirection: 'row',
@@ -167,23 +189,30 @@ const styles = StyleSheet.create({
     padding: 8,
     backgroundColor: '#342b6b',
     color: '#fff',
-    borderRadius: 5,
+    borderRadius: 25,
+    width: 45,
+    alignItems: 'center',
+    textAlign: 'center',
   },
   counterText: {
     fontSize: 18,
     color: '#333',
     marginHorizontal: 10,
   },
-  price: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#342b6b',
+  footer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#fff',
+    padding: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#e0e0e0',
   },
   checkoutButton: {
-    marginTop: 20,
     backgroundColor: '#342b6b',
     paddingVertical: 15,
-    borderRadius: 10,
+    borderRadius: 30,
     alignItems: 'center',
   },
   checkoutButtonText: {

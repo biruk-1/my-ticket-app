@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import { MaterialIcons, FontAwesome, Ionicons } from '@expo/vector-icons';
+
+const { width, height } = Dimensions.get('window');
 
 const EventDetails = ({ route, navigation }) => {
   const { eventId } = route.params;
@@ -42,39 +44,75 @@ const EventDetails = ({ route, navigation }) => {
         </View>
       </View>
 
-      {/* Horizontal Menu */}
-      <View style={styles.menuContainer}>
-        <TouchableOpacity style={styles.menuItem}><Text style={styles.menuText}>Info</Text></TouchableOpacity>
-        <TouchableOpacity style={[styles.menuItem, styles.activeMenu]}><Text style={styles.activeMenuText}>Menu</Text></TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem}><Text style={styles.menuText}>Rating</Text></TouchableOpacity>
+      {/* Share and Save Icons Below the Image */}
+      <View style={styles.shareSaveContainer}>
+  {/* "Will be attending" Text */}
+  <View>
+    <Text style={styles.attendingText}>Will be attending</Text>
+  </View>
+
+  {/* Share and Save Buttons */}
+        <View style={styles.buttonsContainer}>
+          <TouchableOpacity style={styles.iconButton}>
+            <Ionicons name="share-social" size={20} color="#6A5ACD" />
+            <Text style={styles.iconText}>Share</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconButton}>
+            <Ionicons name="bookmark" size={20} color="#6A5ACD" />
+            <Text style={styles.iconText}>Save</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Event Details */}
       <View style={styles.cardContainer}>
-        <Text style={styles.eventTitle}>{event.display_name}</Text>
-        <Text style={styles.eventDescription}>{event.event_description}</Text>
-        <View style={styles.iconRow}>
-          <TouchableOpacity style={styles.iconButton}>
-            <MaterialIcons name="call" size={20} color="#6A5ACD" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton}>
-            <FontAwesome name="map-marker" size={20} color="#6A5ACD" />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-          style={styles.reserveButton}
-          onPress={() => navigation.navigate('BuyTickets', { eventId: event.event_id })}
-        >
-          <Text style={styles.reserveButtonText}>Reserve Spot</Text>
-        </TouchableOpacity>
+        {/* Event Name */}
+        <View style={styles.titleContainer}>
+          <Ionicons name="musical-notes" size={24} color="#6A5ACD" />
+          <Text style={styles.eventTitle}>{event.display_name}</Text>
         </View>
-        {/* Reserve Spot */}
-        {/* <TouchableOpacity
-          style={styles.reserveButton}
-          onPress={() => navigation.navigate('BuyTickets', { eventId: event.event_id })}
-        >
-          <Text style={styles.reserveButtonText}>Reserve Spot</Text>
-        </TouchableOpacity> */}
+
+        {/* Event Date */}
+        <View style={styles.dateContainer}>
+          <Ionicons name="calendar" size={20} color="#6A5ACD" />
+          <Text style={styles.eventDate}>2024-09-04 20:52:52</Text>
+        </View>
+
+        {/* Artists */}
+        <View style={styles.artistsContainer}>
+          <Ionicons name="people" size={20} color="#6A5ACD" />
+          <Text style={styles.artistsText}>
+            Yohana, Kassmasse, Hewan, MicSolo, Jemberu Demeke
+          </Text>
+        </View>
+
+        {/* Divider Line */}
+        <View style={styles.divider} />
+
+        {/* About Event Section */}
+        <View style={styles.aboutContainer}>
+          <Ionicons name="information-circle" size={24} color="#6A5ACD" />
+          <Text style={styles.aboutEventTitle}>About Event</Text>
+        </View>
+        <Text style={styles.eventDescription}>{event.event_description}</Text>
+
+        {/* Call, Location, and Reserve Spot Buttons */}
+        <View style={styles.bottomButtonsContainer}>
+          <TouchableOpacity style={styles.iconButton}>
+            <MaterialIcons name="call" size={24} color="#6A5ACD" />
+            <Text style={styles.iconText}>Call</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconButton}>
+            <FontAwesome name="map-marker" size={24} color="#6A5ACD" />
+            <Text style={styles.iconText}>Location</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.reserveButton}
+            onPress={() => navigation.navigate('BuyTickets', { eventId: event.event_id })}
+          >
+            <Text style={styles.reserveButtonText}>Reserve Spot</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </ScrollView>
   );
@@ -83,31 +121,61 @@ const EventDetails = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F9F9F9' },
   bannerContainer: { position: 'relative' },
-  bannerImage: { width: '100%', height: 320, borderBottomLeftRadius: 20, borderBottomRightRadius: 20,  borderRadius: 15,marginVertical: 20,},
-  
+  bannerImage: { width: '100%', height: height * 0.4, borderBottomLeftRadius: 20, borderBottomRightRadius: 20 },
   discountBadge: {
     position: 'absolute', top: 20, right: 20,
     backgroundColor: '#6A5ACD', padding: 8, borderRadius: 8,
   },
-  discountText: { color: '#FFF', fontSize: 12, fontWeight: 'bold' },
+  discountText: { color: '#FFF', fontSize: 14, fontWeight: 'bold' },
   dateBadge: {
     position: 'absolute', top: 20, left: 20,
     backgroundColor: '#FFF', padding: 8, borderRadius: 8, elevation: 2,
   },
-  dateText: { color: '#6A5ACD', fontSize: 12, fontWeight: 'bold' },
-  menuContainer: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 10, backgroundColor: '#FFF', padding: 10, borderRadius: 8 },
-  menuItem: { paddingVertical: 8 },
-  menuText: { color: '#777', fontSize: 14 },
-  activeMenu: { borderBottomWidth: 2, borderColor: '#6A5ACD' },
-  activeMenuText: { color: '#6A5ACD', fontSize: 14, fontWeight: 'bold' },
-  cardContainer: { backgroundColor: '#FFF', margin: 10, padding: 20, borderRadius: 12, elevation: 3 },
-  eventTitle: { fontSize: 20, fontWeight: 'bold', color: '#333', marginBottom: 10 },
+  dateText: { color: '#6A5ACD', fontSize: 14, fontWeight: 'bold' },
+  shareSaveContainer: {
+    flexDirection: 'row', justifyContent: 'center', gap: 10, marginVertical: 5,
+  },
+  iconButton: { alignItems: 'center' },
+  iconText: { fontSize: 14, color: '#6A5ACD', marginTop: 5 },
+  cardContainer: { backgroundColor: '#FFF', margin: -3, padding: 20, borderRadius: 12, elevation: 3 },
+  titleContainer: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
+  eventTitle: { fontSize: 24, fontWeight: 'bold', color: '#333', marginLeft: 10 },
+  dateContainer: { flexDirection: 'row', alignItems: 'center', marginBottom: 2 },
+  eventDate: { fontSize: 16, color: '#6A5ACD', marginLeft: 10 },
+  artistsContainer: { flexDirection: 'row', alignItems: 'center', marginBottom: 20 },
+  artistsText: { fontSize: 14, color: '#555', marginLeft: 10, fontStyle: 'italic' },
+  divider: { height: 1, backgroundColor: '#E0E0E0', marginVertical: 20 },
+  aboutContainer: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
+  aboutEventTitle: { fontSize: 18, fontWeight: 'bold', color: '#333', marginLeft: 10 },
   eventDescription: { fontSize: 14, color: '#555', marginBottom: 20 },
-  iconRow: { flexDirection: 'row', justifyContent: 'flex-start', marginBottom: 20 },
-  iconButton: { backgroundColor: '#F0F0F0', padding: 10, borderRadius: 50, marginRight: 10 },
-  reserveButton: { backgroundColor: '#6A5ACD' ,width: '60%' ,paddingVertical: 15, borderRadius: 8, alignItems: 'center' },
+  bottomButtonsContainer: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  reserveButton: { backgroundColor: '#6A5ACD', paddingVertical: 15, paddingHorizontal: 40, borderRadius: 8 },
   reserveButtonText: { color: '#FFF', fontSize: 16, fontWeight: 'bold' },
   loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  shareSaveContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 10,
+    paddingHorizontal: 20,
+  },
+  attendingText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    gap: 20, // Space between Share and Save buttons
+  },
+  iconButton: {
+    alignItems: 'center',
+  },
+  iconText: {
+    fontSize: 14,
+    color: '#6A5ACD',
+    marginTop: 5,
+  },
 });
 
 export default EventDetails;

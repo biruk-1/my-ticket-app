@@ -57,62 +57,72 @@ const Checkout = ({ route, navigation }) => {
   );
 
   return (
-    <ScrollView style={styles.container}>
-      {/* Event Details */}
-      <View style={styles.eventDetailsContainer}>
-        <Image source={{ uri: event.poster }} style={styles.eventImage} />
-        <View style={styles.eventInfoContainer}>
-          <Text style={styles.eventName}>{event.display_name}</Text>
-          <Text style={styles.eventDate}>{event.event_date_time}</Text>
-          <Text style={styles.eventLocation}>{event.location}</Text>
+    <View style={styles.container}>
+      {/* Scrollable Content */}
+      <ScrollView style={styles.scrollContainer}>
+        {/* Event Details */}
+        <View style={styles.eventDetailsContainer}>
+          <Image source={{ uri: event.poster }} style={styles.eventImage} />
+          <View style={styles.eventInfoContainer}>
+            <Text style={styles.eventName}>{event.display_name}</Text>
+            <Text style={styles.eventDate}>{event.event_date_time}</Text>
+            <Text style={styles.eventLocation}>{event.location}</Text>
+          </View>
         </View>
-      </View>
 
-      {/* Ticket Summary */}
-      <View style={styles.ticketSummary}>
-        <Text style={styles.ticketTitle}>Ticket Summary</Text>
-        {Object.entries(ticketCounts).map(([type, count]) => (
-          <Text key={type} style={styles.ticketText}>
-            {type}: {count} x{" "}
-            {event.tickets.find((ticket) => ticket.ticket_type === type)?.price}{" "}
-            ETB
+        {/* Ticket Summary */}
+        <View style={styles.ticketSummary}>
+          <Text style={styles.ticketTitle}>Ticket Summary</Text>
+          {Object.entries(ticketCounts).map(([type, count]) => (
+            <Text key={type} style={styles.ticketText}>
+              {type}: {count} x{" "}
+              {event.tickets.find((ticket) => ticket.ticket_type === type)?.price}{" "}
+              ETB
+            </Text>
+          ))}
+        </View>
+
+        {/* Pay with Chapa */}
+        <View style={styles.chapaContainer}>
+          <Text style={styles.sectionTitle}>Pay with Chapa</Text>
+          <ChapaPayment total={total} />
+          <Text style={styles.totalText}>Total: {total} ETB</Text>
+          <TextInput style={styles.input} placeholder="Name" />
+          <TextInput style={styles.input} placeholder="Phone number" keyboardType="phone-pad" />
+        </View>
+
+        {/* Payment Methods */}
+        <View style={styles.paymentMethodsContainer}>
+          <Text style={styles.sectionTitle}>Other Payment Methods</Text>
+          <Text style={styles.infoText}>
+            Additional payment methods will be available soon.
           </Text>
-        ))}
-      </View>
+        </View>
+      </ScrollView>
 
-      {/* Pay with Chapa */}
-      <View style={styles.chapaContainer}>
-        <Text style={styles.sectionTitle}>Pay with Chapa</Text>
-        <ChapaPayment total={total} />
-        <Text style={styles.totalText}>Total: {total} ETB</Text>
-        <TextInput style={styles.input} placeholder="Name" />
-        <TextInput style={styles.input} placeholder="Phone number" keyboardType="phone-pad" />
+      {/* Fixed Proceed to Payment Button */}
+      <View style={styles.footer}>
         <TouchableOpacity style={styles.payButton}>
           <Text style={styles.payButtonText}>Proceed to Payment</Text>
         </TouchableOpacity>
       </View>
-
-      {/* Payment Methods */}
-      <View style={styles.paymentMethodsContainer}>
-        <Text style={styles.sectionTitle}>Other Payment Methods</Text>
-        <Text style={styles.infoText}>
-          Additional payment methods will be available soon.
-        </Text>
-      </View>
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000000",
-    padding: 20,
+    backgroundColor: "#FFFFFF", // Light background
+  },
+  scrollContainer: {
+    flex: 1,
+    paddingHorizontal: 20,
   },
   loadingText: {
     fontSize: 18,
     textAlign: "center",
-    color: "#FFFFFF",
+    color: "#000000",
   },
   errorText: {
     fontSize: 18,
@@ -120,15 +130,16 @@ const styles = StyleSheet.create({
     color: "#FF6F61",
   },
   eventDetailsContainer: {
-    backgroundColor: "#1E1E1E",
+    backgroundColor: "#F5F5F5", // Light gray background
     borderRadius: 10,
     padding: 15,
     marginBottom: 20,
     flexDirection: "row",
     alignItems: "center",
     shadowColor: "#000",
-    shadowOpacity: 0.5,
-    shadowRadius: 8,
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
   },
   eventImage: {
     width: 80,
@@ -142,18 +153,18 @@ const styles = StyleSheet.create({
   eventName: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#FFFFFF",
+    color: "#333333", // Dark text
   },
   eventDate: {
     fontSize: 14,
-    color: "#BBBBBB",
+    color: "#666666", // Gray text
   },
   eventLocation: {
     fontSize: 14,
-    color: "#BBBBBB",
+    color: "#666666", // Gray text
   },
   ticketSummary: {
-    backgroundColor: "#1E1E1E",
+    backgroundColor: "#F5F5F5", // Light gray background
     borderRadius: 10,
     padding: 20,
     marginBottom: 20,
@@ -161,65 +172,77 @@ const styles = StyleSheet.create({
   ticketTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#FD61E3",
+    color: "#6A5ACD", // Purple text
     marginBottom: 10,
   },
   ticketText: {
     fontSize: 14,
-    color: "#FFFFFF",
+    color: "#333333", // Dark text
     marginBottom: 5,
   },
   chapaContainer: {
-    backgroundColor: "#3b3b3b",
+    backgroundColor: "#FFFFFF", // White background
     borderRadius: 10,
     padding: 20,
     marginBottom: 20,
-    alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#FD61E3",
+    color: "#6A5ACD", // Purple text
     marginBottom: 10,
   },
   totalText: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#FFFFFF",
+    color: "#333333", // Dark text
     marginVertical: 10,
   },
   input: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#FFFFFF", // White background
     borderRadius: 10,
     padding: 10,
     marginBottom: 10,
     width: "100%",
-    color: "#0b0b0b",
-  },
-  payButton: {
-    backgroundColor: "#FD61E3",
-    borderRadius: 20,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    marginTop: 10,
-    width: "100%",
-    alignItems: "center",
-  },
-  payButtonText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "bold",
+    color: "#333333", // Dark text
+    borderWidth: 1,
+    borderColor: "#E0E0E0", // Light gray border
   },
   paymentMethodsContainer: {
-    backgroundColor: "#1E1E1E",
+    backgroundColor: "#F5F5F5", // Light gray background
     borderRadius: 10,
     padding: 20,
-    marginVertical: 20,
+    marginBottom: 100, // Add margin to avoid overlap with the fixed footer
   },
   infoText: {
     fontSize: 14,
-    color: "#BBBBBB",
+    color: "#666666", // Gray text
     textAlign: "center",
+  },
+  footer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "#FFFFFF", // White background
+    padding: 10,
+    borderTopWidth: 1,
+    borderTopColor: "#E0E0E0", // Light gray border
+  },
+  payButton: {
+    backgroundColor: "#6A5ACD", // Purple background
+    borderRadius: 10,
+    paddingVertical: 15,
+    alignItems: "center",
+  },
+  payButtonText: {
+    color: "#FFFFFF", // White text
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
 

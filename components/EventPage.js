@@ -15,6 +15,18 @@ import Footer from './Footer';
 
 const { width, height } = Dimensions.get('window');
 
+// Helper function to format the date
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  return date.toLocaleString('default', { month: 'short', day: '2-digit' });
+};
+
+// Helper function to format the time
+const formatTime = (dateString) => {
+  const date = new Date(dateString);
+  return date.toLocaleString('default', { hour: '2-digit', minute: '2-digit', hour12: false });
+};
+
 const EventPage = ({ route, navigation }) => {
   const type = route?.params?.type || "defaultType";
   const [topEvents, setTopEvents] = useState([]);
@@ -72,7 +84,10 @@ const EventPage = ({ route, navigation }) => {
         >
           {topEvents.map((event, index) => (
             <View key={index} style={styles.banner}>
-              <Text style={styles.eventDate}>{event.event_date_time}</Text>
+              {/* <Text style={styles.eventDate}>{formatDate(event.event_date_time)}</Text> */}
+              <Text style={styles.eventDate}>
+                {formatDate(event.event_date_time)}
+              </Text>
               <Text style={styles.eventDiscount}>Discount: 10%</Text>
               <Image
                 source={{ uri: event.poster }}
@@ -143,9 +158,13 @@ const EventCard = ({ item, navigation }) => (
     />
     <View style={styles.eventDetail}>
       <Text style={styles.eventName}>{item.display_name}</Text>
-      <Text style={styles.eventDateBackground}>
-        <Text style={styles.eventDate}>{item.event_date_time}</Text>
-      </Text>
+      {/* Updated Date and Time Section */}
+      <View style={styles.dateTimeContainer}>
+        <Text style={styles.eventDate}>{formatDate(item.event_date_time)}</Text>
+        <Text style={styles.eventTime}>{formatTime(item.event_date_time)}</Text>
+      </View>
+      {/* Added Location */}
+      <Text style={styles.eventLocation}>{item.location}</Text>
     </View>
   </TouchableOpacity>
 );
@@ -169,31 +188,31 @@ const styles = StyleSheet.create({
   loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   loadingText: { marginTop: 10, fontSize: 16, color: '#6200EE' },
   eventsSection: {
-    backgroundColor: '#FFF', // Replace with a valid color
+    backgroundColor: '#FFF',
     zIndex: 10,
   },
   curvedBackground: {
     height: height * 0.33,
     borderBottomLeftRadius: 70,
     borderBottomRightRadius: 70,
-    backgroundColor: '#342b6b', // Single smooth color
-    position: 'absolute', // Position absolutely
+    backgroundColor: '#342b6b',
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
-    zIndex: 1, // Ensure it's below the header and content
+    zIndex: 1,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingTop: 20, // Push the header to the top
-    position: 'absolute', // Position absolutely
+    paddingTop: 20,
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
-    zIndex: 3, // Ensure it's above the curved background and content
+    zIndex: 3,
   },
   searchBar: {
     flex: 1,
@@ -206,8 +225,8 @@ const styles = StyleSheet.create({
   icon: { fontSize: 20, color: '#FFF', marginLeft: 15 },
   content: {
     flex: 1,
-    marginTop: height * 0.1, // Start content below the header
-    zIndex: 2, // Ensure content scrolls above the curved background
+    marginTop: height * 0.1,
+    zIndex: 2,
   },
   bannerScroll: { paddingHorizontal: 10 },
   banner: {
@@ -230,6 +249,17 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 'bold',
   },
+  eventDate: {
+    backgroundColor: '#FFF', // White background
+    color: '#6A5ACD', // Purple text color
+    fontWeight: 'bold', // Bold text
+    paddingHorizontal: 8, // Horizontal padding
+    paddingVertical: 4, // Vertical padding
+    borderRadius: 5, // Slightly rounded corners
+    textAlign: 'center', // Center the text
+    fontSize: 14, // Font size
+    overflow: 'hidden', // Ensure the background color doesn't overflow
+  },
   eventDiscount: {
     position: 'absolute',
     top: 10,
@@ -245,7 +275,7 @@ const styles = StyleSheet.create({
   },
   bannerImage: {
     width: 300,
-    height: 250, // Increased size
+    height: 250,
   },
   buyButton: {
     position: 'absolute',
@@ -262,23 +292,45 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 10,
-    marginVertical: 20,
+    marginVertical: 16,
   },
-  sectionTitle: { fontSize: 20, fontWeight: 'bold', color: '#333' },
-  seeAll: { color: '#6A5ACD', fontSize: 14 },
+  sectionTitle: { fontSize: 15, fontWeight: '800', color: '#131313' },
+  seeAll: { color: '#131313', fontSize: 14, fontWeight: '800' },
   eventCard: {
-    marginRight: 10,
+    marginLeft:10,
+    // marginRight: 10,
     backgroundColor: '#FFF',
     borderRadius: 10,
     overflow: 'hidden',
-    width: 200, // Increased size
+    width: 200,
     elevation: 3,
   },
   eventImage: {
-    width: '100%', height: 150, // Increased size
+    width: '100%', height: 130,resizeMode: 'stretch',
   },
-  eventName: { padding: 5, fontWeight: 'bold', fontSize: 16, color: '#333' }, // Adjusted text style
-  eventDate: { padding: 5, fontSize: 12, color: '#777' },
+  eventName: {  fontWeight: 'bold', fontSize: 16, color: '#FFF' },
+  eventDetail: { padding: 3, backgroundColor: '#40319e' },
+  dateTimeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    // marginTop: 5,
+  },
+  eventDate: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#FFF',
+  },
+  eventTime: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#FFF',
+    marginLeft: 10,
+  },
+  eventLocation: {
+    fontSize: 12,
+    color: '#FFF',
+    marginTop: 2,
+  },
   placeCard: {
     flexDirection: 'row',
     backgroundColor: '#FFF',
@@ -286,12 +338,16 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 5,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   places: { padding: 5 },
-  placeImage: { width: 60, height: 60, borderRadius: 10, marginRight: 10 },
-  placeName: { fontWeight: 'bold', fontSize: 16, color: '#333' },
+  placeImage: { width: 120, height: 120, borderRadius: 10, marginRight: 10 },
+  placeName: { fontWeight: '800', fontSize: 20, color: '#40319e' },
   placeDescription: { fontSize: 14, color: '#777' },
-  eventDetail: { padding: 10 },
 });
 
 export default EventPage;
